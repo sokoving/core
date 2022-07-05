@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="kb" class="com.spring.core.chap02.computer.HpKeyboard" />
+    <bean id="ms" class="com.spring.core.chap02.computer.AppleMouse" />
+    <bean id="mn" class="com.spring.core.chap02.computer.LgMonitor" />
+
+
+    <bean id="com" class="com.spring.core.chap02.computer.Computer">
+        <constructor-arg name="keyboard" ref="kb" />
+        <constructor-arg name="mouse" ref="ms" />
+        <constructor-arg name="monitor" ref="mn" />
+    </bean>
+
+</beans>

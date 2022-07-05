@@ -1,6 +1,9 @@
 # 단축키
 - ctrl + e : 최근 열었던 파일로 이동하기
 
+# Assertions
+- assertInstanceOf
+
 
 # 스프링 프레임워크 시작하기
 1. https://start.spring.io/
