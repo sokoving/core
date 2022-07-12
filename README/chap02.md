@@ -10,8 +10,8 @@
 
 ### 제어의 역전 - IoC(Inversion of Control)
 - 객체 생성을 다른 클래스에게 위임하여 객체 생성의 제어권을 넘기는 것
-- 기존 프로그램 : 클래스 내부에서 자신이 필요한 다른 클래스의 객체를 직접 생성하여 연결, 실행함
-- 스프링 프레임워크 : 객체 생성의 제어권을 스프링 컨테이너가 전임함
+ + 기존 프로그램 : 클래스 내부에서 자신이 필요한 다른 클래스의 객체를 직접 생성하여 연결, 실행함
+ + 스프링 프레임워크 : 객체 생성의 제어권을 스프링 컨테이너가 전담함
 - 때문에 스프링을 IoC Framework라고 부르기도 함
 
 -----------------------------------------------------------------------
@@ -30,9 +30,8 @@
 - 객체 생성 후 생성자에 인자로 넣기
 - 객체 불변성, 안정성을 위해서는 생성자 주입이 권장됨
  + 객체 생성 후 프로그램 작동 시에 객체의 불변성을 붙이려면 필드에 final, 생성자 주입 하기
-```
-    @Bean
-    public Computer computer(){
+```@Bean
+   public Computer computer(){
             return new Computer(samsungKeyboard(), logitecMouse(), samsungMonitor());
     }
 ```
@@ -40,8 +39,7 @@
 - 해당 클래스에 기본생성자, 세터, 게터 만들고
  + 기본 생성자로 생성 후 세터로 주입
 - 객체 생성 후에도 세터로 수정이 가능해 객체가 불안정해짐
-```
-    @Bean
+``` @Bean
     public Restaurant restaurant(){
         EasternRestaurant er = new EasternRestaurant();
         er.setChef(chef());
@@ -50,8 +48,7 @@
     }
 ```
 ### 의존관계 중첩
-```
-    @Bean
+``` @Bean
     public Hotel hotel(){ return new Hotel(restaurant(), chef()); }
 ```
 
@@ -68,5 +65,38 @@
     Course course = ac.getBean("sc", Course.class);
 ```
 -----------------------------------------------------------------------
-# xml로 빈 등록하기
-ㅇㄴㅇㄹ뮤ㅗ
+
+# xml로 빈 등록 설정하기(스프링 레거시)
+1. src.main.resources에 HotelConfig.xml 파일 생성
+2. 맨 윗줄에 아래 넣기
+ - spring xml bean configuration로 검색
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+</beans> <!-- 문서 끝에 빈 태그 닫기-->
+```
+3. HotelConfig의 @Bean → <bean> 태그
+``` xml
+<!-- id = "빈 이름"  class = "생성할.객체의.풀.패키지.경로" -->
+<bean id="c" class="com.spring.core.chap02.JuanChef" />
+``` 
+4. setter 주입 → <property> 태그
+```xml
+    <bean id="res" class="com.spring.core.chap02.WesternRestaurant">
+        <!-- name = "필드명" ref = "참조할 빈의 아이디"  -->
+        <property name="chef" ref="c" />
+        <property name="course" ref="fc" />
+    </bean>
+```
+5. 생성자 주입 → <constructor-arg> 태그 
+```xml
+    <bean id="hotel" class="com.spring.core.chap02.Hotel">
+        <!-- name = "생성자 매개변수명" ref = "주입할 빈의 아이디"   -->
+        <constructor-arg name="restaurant" ref="res" />
+        <constructor-arg name="headChef" ref="c" />
+    </bean>
+``` 

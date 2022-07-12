@@ -1,5 +1,6 @@
 package com.spring.core.chap02;
 
+// 자동 빈 등록
 public class Hotel {
 
     // Hotel은 구현체인 EasternRestaurant과 KimChef에 의존 > 다형성에 제약
@@ -11,7 +12,7 @@ public class Hotel {
 
 
     // 호텔에서 객체 생성X, 이미 만들어진 객체를 끼우는 것
-    // 객체가 바뀌더라고 호텔의 코드를 바꿀 필요 없음
+    // 객체가 바뀌더라도 호텔의 코드를 바꿀 필요 없음
     public Hotel(Restaurant restaurant, Chef headChef){
         this.restaurant = restaurant;
         this.headChef = headChef;
